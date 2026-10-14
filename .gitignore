@@ -1,0 +1,31 @@
+# Binaries
+derper
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test and coverage artifacts
+*.test
+*.out
+coverage.txt
+
+# Certificate and private key artifacts
+certs/
+*.key
+*.crt
+*.pem
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# IDE and OS artifacts
+.idea/
+.vscode/
+*.swp
+*~
+.DS_Store
+Thumbs.db

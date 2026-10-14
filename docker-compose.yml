@@ -1,0 +1,27 @@
+services:
+  derper:
+    image: ghcr.io/${IMAGE_NAME:-YOUR_USERNAME/derper}:latest
+    # Uncomment to build from local source instead:
+    # build: .
+    container_name: derper
+    restart: unless-stopped
+    ports:
+      - "443:443"
+      - "80:80"
+      - "3478:3478/udp"
+    environment:
+      - DERP_HOST=${DERP_HOST:-derp.example.com}
+      - DERP_CERT_MODE=${DERP_CERT_MODE:-letsencrypt}
+      - DERP_ADDR=:443
+      - DERP_HTTP_PORT=80
+      - DERP_STUN=true
+      - DERP_STUN_PORT=3478
+      # Must remain false for Headscale networks
+      - DERP_VERIFY_CLIENTS=false
+    volumes:
+      - derper-certs:/app/certs
+      - derper-data:/app/data
+
+volumes:
+  derper-certs:
+  derper-data:

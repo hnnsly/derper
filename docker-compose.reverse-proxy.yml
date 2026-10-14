@@ -1,0 +1,37 @@
+services:
+  caddy:
+    image: caddy:2-alpine
+    container_name: derper-caddy
+    restart: unless-stopped
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - derper
+
+  derper:
+    image: ghcr.io/${IMAGE_NAME:-YOUR_USERNAME/derper}:latest
+    container_name: derper
+    restart: unless-stopped
+    ports:
+      # STUN UDP traffic bypasses the HTTP proxy and connects directly
+      - "3478:3478/udp"
+    environment:
+      - DERP_HOST=${DERP_HOST:-derp.example.com}
+      - DERP_CERT_MODE=none
+      - DERP_ADDR=:8080
+      - DERP_HTTP_PORT=-1
+      - DERP_STUN=true
+      - DERP_STUN_PORT=3478
+      - DERP_VERIFY_CLIENTS=false
+    volumes:
+      - derper-data:/app/data
+
+volumes:
+  caddy-data:
+  caddy-config:
+  derper-data:
