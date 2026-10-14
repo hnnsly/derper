@@ -27,4 +27,4 @@ USER 10001:10001
 
 EXPOSE 443 80 3478/udp
 
-ENTRYPOINT ["/app/derper"]
+ENTRYPOINT ["/app/derper", "-c=/var/lib/derper/derper.key"]
